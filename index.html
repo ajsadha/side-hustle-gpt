@@ -23,15 +23,15 @@
       75% { border-color: #f59e0b; box-shadow: 0 0 0 rgba(245, 158, 11, 0.2); }
       100% { border-color: #ef4444; box-shadow: 0 0 0 rgba(239, 68, 68, 0.2); }
     }
-    .glass, .tile {
+    .tile {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 3px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       border-radius: 1rem;
-      position: relative;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
     }
     .tile:hover {
       transform: translateY(-8px) scale(1.03);
@@ -96,18 +96,9 @@
     <h2 class="text-3xl font-bold text-center mb-6">Explore New Side Hustles</h2>
     <p class="text-center text-gray-300 mb-10">Click to see simple steps to start each one!</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-      <div onclick="showHustle('tshirt')" class="cursor-pointer tile p-6 text-white">
-        <h3 class="text-xl font-semibold">Print-on-Demand T-Shirts</h3>
-        <p class="text-sm mt-2">Sell custom designs using platforms like Printful and Etsy.</p>
-      </div>
-      <div onclick="showHustle('tutoring')" class="cursor-pointer tile p-6 text-white">
-        <h3 class="text-xl font-semibold">Online Tutoring</h3>
-        <p class="text-sm mt-2">Teach your skills online via Preply or Zoom sessions.</p>
-      </div>
-      <div onclick="showHustle('ebook')" class="cursor-pointer tile p-6 text-white">
-        <h3 class="text-xl font-semibold">Write and Sell an eBook</h3>
-        <p class="text-sm mt-2">Create and sell digital books using Gumroad or Payhip.</p>
-      </div>
+      <div onclick="showHustle('tshirt')" class="tile p-6 text-white">Print-on-Demand T-Shirts</div>
+      <div onclick="showHustle('tutoring')" class="tile p-6 text-white">Online Tutoring</div>
+      <div onclick="showHustle('ebook')" class="tile p-6 text-white">Write and Sell an eBook</div>
     </div>
     <div id="hustleDetails" class="max-w-xl mx-auto hidden tile p-6 mt-10">
       <h3 id="hustleTitle" class="text-2xl font-bold mb-2"></h3>
@@ -128,6 +119,10 @@
     </div>
   </section>
 
+  <footer class="text-center text-sm text-gray-500 py-10 mt-20">
+    &copy; 2025 Side Hustle Starter GPT. Built for doers.
+  </footer>
+
   <script>
     const emailForm = document.getElementById("emailForm");
     const subscribeBtn = document.getElementById("subscribeBtn");
@@ -144,10 +139,10 @@
 
       fetch("https://script.google.com/macros/s/AKfycbyrr33LWROpulai0J7700c8zPO8T58I9PRgw-Ms3--fwU_4vnS41Qr8p0QFnp4xnHYw_Q/exec", {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `email=${encodeURIComponent(email)}`
-      }).then(() => {
+      })
+      .then(response => {
         const end = Date.now() + 4000;
         const colors = ['#bb0000', '#ffffff'];
 
@@ -162,12 +157,55 @@
           subscribeBtn.classList.remove("flash");
           emailForm.reset();
         }, 7000);
+      })
+      .catch(error => {
+        console.error("Submission failed:", error);
+        alert("Submission failed. Please check your internet connection and try again.");
       });
     });
-  </script>
 
-  <footer class="text-center text-sm text-gray-500 py-10 mt-20">
-    &copy; 2025 Side Hustle Starter GPT. Built for doers.
-  </footer>
+    const hustles = {
+      tshirt: {
+        title: "Print-on-Demand T-Shirts",
+        steps: [
+          "Design your shirt graphics using Canva or Photoshop",
+          "Upload to Printful or Redbubble",
+          "Create a store (Etsy, Shopify, etc.)",
+          "Start promoting on Instagram or TikTok"
+        ],
+        link: "https://printful.com"
+      },
+      tutoring: {
+        title: "Online Tutoring",
+        steps: [
+          "Pick subjects you're good at",
+          "Create a profile on Preply or Superprof",
+          "Start with free trial sessions",
+          "Get student reviews and scale up"
+        ],
+        link: "https://preply.com"
+      },
+      ebook: {
+        title: "Write and Sell an eBook",
+        steps: [
+          "Choose a niche or skill to write about",
+          "Write in Google Docs or Notion",
+          "Export as PDF",
+          "Sell on Gumroad or Payhip"
+        ],
+        link: "https://gumroad.com"
+      }
+    };
+
+    function showHustle(key) {
+      const data = hustles[key];
+      if (!data) return;
+      document.getElementById("hustleTitle").innerText = data.title;
+      document.getElementById("hustleSteps").innerHTML = data.steps.map(step => `<li>${step}</li>`).join('');
+      document.getElementById("hustleLink").href = data.link;
+      document.getElementById("hustleDetails").classList.remove("hidden");
+      document.getElementById("hustleDetails").scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
