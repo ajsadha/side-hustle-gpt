@@ -78,13 +78,51 @@
 
   <div id="popup">🎉 You're in! Get ready for your weekly side hustle boost.</div>
 
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 tile mx-4 mt-4">
+    <h1 class="text-xl font-bold text-indigo-300">🚀 Side Hustle Starter</h1>
+    <a href="#subscribe" class="text-sm text-indigo-300 underline hover:text-indigo-100 transition">Stay Updated</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="text-center px-4 sm:px-6 py-20 tile text-white mx-4 mt-6">
+    <h1 class="text-4xl sm:text-5xl font-bold mb-4">Start a Side Hustle for Under $100</h1>
+    <p class="text-lg sm:text-xl max-w-2xl mx-auto mb-6">Side Hustle Starter GPT gives you instant, personalized business ideas you can launch fast—with little to no money.</p>
+    <a href="#explore" class="inline-block bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full shadow hover:bg-gray-100 transition pulse-cta">Show Me Ideas</a>
+  </section>
+
+  <!-- Side Hustle Explorer Section -->
+  <section id="explore" class="py-20 px-4 sm:px-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Explore New Side Hustles</h2>
+    <p class="text-center text-gray-300 mb-10">Click to see simple steps to start each one!</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div onclick="showHustle('tshirt')" class="cursor-pointer tile p-6 text-white">
+        <h3 class="text-xl font-semibold">Print-on-Demand T-Shirts</h3>
+        <p class="text-sm mt-2">Sell custom designs using platforms like Printful and Etsy.</p>
+      </div>
+      <div onclick="showHustle('tutoring')" class="cursor-pointer tile p-6 text-white">
+        <h3 class="text-xl font-semibold">Online Tutoring</h3>
+        <p class="text-sm mt-2">Teach your skills online via Preply or Zoom sessions.</p>
+      </div>
+      <div onclick="showHustle('ebook')" class="cursor-pointer tile p-6 text-white">
+        <h3 class="text-xl font-semibold">Write and Sell an eBook</h3>
+        <p class="text-sm mt-2">Create and sell digital books using Gumroad or Payhip.</p>
+      </div>
+    </div>
+    <div id="hustleDetails" class="max-w-xl mx-auto hidden tile p-6 mt-10">
+      <h3 id="hustleTitle" class="text-2xl font-bold mb-2"></h3>
+      <ul id="hustleSteps" class="list-decimal list-inside text-gray-100 mb-4"></ul>
+      <a id="hustleLink" href="#" target="_blank" class="text-blue-300 hover:underline font-medium">Learn more</a>
+    </div>
+  </section>
+
   <!-- Email Signup Section -->
   <section id="subscribe" class="py-20 px-4 sm:px-6">
     <div class="max-w-xl mx-auto tile p-8">
       <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-center">Curious What’s Trending in the Gig Economy?</h2>
       <p class="text-gray-300 text-center mb-6">Get weekly insights, real side hustle examples, and fresh ideas delivered to your inbox. No spam. Just the good stuff.</p>
-      <form id="emailForm" class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <input name="email" type="email" placeholder="Enter your email" required class="w-full sm:w-auto px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white bg-transparent">
+      <form id="emailForm" action="#" method="POST" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <input name="email" type="email" placeholder="Enter your email" required class="w-full sm:w-auto px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         <button id="subscribeBtn" type="submit" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full shadow hover:bg-indigo-700 transition">Subscribe</button>
       </form>
     </div>
@@ -104,10 +142,11 @@
       popup.style.display = "block";
       subscribeBtn.classList.add("flash");
 
-      fetch("https://script.google.com/macros/s/AKfycbzOZHOrqzIdMOJQQJZ2KqmfmejfDvSgStKlRpOOj2OQ2IJ4D7EtS4wCxxe9_vBip4TP/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbyrr33LWROpulai0J7700c8zPO8T58I9PRgw-Ms3--fwU_4vnS41Qr8p0QFnp4xnHYw_Q/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email })
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `email=${encodeURIComponent(email)}`
       }).then(() => {
         const end = Date.now() + 4000;
         const colors = ['#bb0000', '#ffffff'];
